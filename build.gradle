@@ -1,0 +1,51 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.5'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	flatDir {
+		dirs 'C:/Program Files/opencv/build/java'
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'net.sourceforge.tess4j:tess4j:5.4.0'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+//	implementation 'org.openpnp:opencv:4.9.0-0'
+	implementation name: 'opencv-490' // Local OpenCV JAR file
+//	implementation files('C:\\Program Files\\opencv\\build\\java')
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.withType(JavaExec) {
+	environment "PATH", System.getenv("PATH") + ";C:\\Program Files\\opencv\\build\\java\\x64"
+}
+
+tasks.withType(Test) {
+	environment "PATH", System.getenv("PATH") + ";C:\\Program Files\\opencv\\build\\java\\x64"
+}
